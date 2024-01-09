@@ -1,0 +1,15 @@
+<p>{{Metar | json }}</p>
+<table width="100%">
+	<tr>
+		<th>icao</th>
+		<th>barometer</th>
+		<th>ceiling</th>
+		<th>clouds</th>
+	</tr>
+	<tr *ngFor="let datas of Metar">
+		<td>{{datas.icao}}</td>
+		<td>{{datas.barometer | json }}</td>
+		<td>{{datas.ceiling | json}}</td>
+		<td>{{datas.clouds | json}}</td>
+	</tr>
+</table>

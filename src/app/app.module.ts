@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MapsComponent } from './maps/maps.component';
+import { FooterComponent } from './footer/footer.component';
 
 
 
@@ -17,7 +18,8 @@ import { MapsComponent } from './maps/maps.component';
   declarations: [
     AppComponent,
     WeatherComponent,
-    MapsComponent
+    MapsComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

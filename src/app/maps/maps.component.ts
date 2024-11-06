@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef, AfterViewInit, OnDestroy } from '@angular/core';
-import { Map, marker, tileLayer, Bounds } from 'leaflet';
+import { Component , AfterViewInit,  } from '@angular/core';
+
 import * as L from 'leaflet';
 
 
@@ -8,49 +8,37 @@ import * as L from 'leaflet';
   templateUrl: './maps.component.html',
   styleUrls: ['./maps.component.scss']
 })
-export class MapsComponent implements OnInit, AfterViewInit {
+export class MapsComponent implements AfterViewInit {
   private map!: L.Map
-  markers: L.Marker[] = [
-    L.marker([19.0775, 72.8771]), // Mumbai
-
-  ];
-
-  constructor() { }
-
-  ngOnInit() {
-  }
 
   ngAfterViewInit() {
     this.initializeMap();
-    this.addMarkers();
-    this.centerMap();
   }
-
 
   private initializeMap() {
-    const baseMapURl = 'https://tileserver.memomaps.de/tilegen/{z}/{x}/{y}.png'
-    const OpenWeatherMap_Wind = 'http://{s}.tile.openweathermap.org/map/wind/{z}/{x}/{y}.png?appid=2aaa663e1086a2c24dafe936a390a243'
-    const OpenWeatherMap_Pressure = 'http://{s}.tile.openweathermap.org/map/pressure/{z}/{x}/{y}.png?appid=2aaa663e1086a2c24dafe936a390a243'
-    const OpenWeatherMap_Clouds = 'http://{s}.tile.openweathermap.org/map/clouds/{z}/{x}/{y}.png?appid=2aaa663e1086a2c24dafe936a390a243'
+    const baseMapURl = 'https://tileserver.memomaps.de/tilegen/{z}/{x}/{y}.png';
+    const OpenWeatherMap_Wind = 'http://{s}.tile.openweathermap.org/map/wind/{z}/{x}/{y}.png?appid=2aaa663e1086a2c24dafe936a390a243';
+    const OpenWeatherMap_Pressure = 'http://{s}.tile.openweathermap.org/map/pressure/{z}/{x}/{y}.png?appid=2aaa663e1086a2c24dafe936a390a243';
+    const OpenWeatherMap_Clouds = 'http://{s}.tile.openweathermap.org/map/clouds/{z}/{x}/{y}.png?appid=2aaa663e1086a2c24dafe936a390a243';
 
-    this.map = L.map('map');
-    L.tileLayer(baseMapURl).addTo(this.map);
-    L.tileLayer(OpenWeatherMap_Wind).addTo(this.map);
-    // L.tileLayer(OpenWeatherMap_Pressure).addTo(this.map);
-    // L.tileLayer(OpenWeatherMap_Clouds).addTo(this.map);
-  }
+    this.map = L.map('map').setView([20.5937, 78.9629], 5);
 
+    const baseLayer = L.tileLayer(baseMapURl);
+    const windLayer = L.tileLayer(OpenWeatherMap_Wind);
+    const pressureLayer = L.tileLayer(OpenWeatherMap_Pressure);
+    const cloudsLayer = L.tileLayer(OpenWeatherMap_Clouds);
 
-  private addMarkers() {
-    // Add your markers to the map
-    this.markers.forEach(marker => marker.addTo(this.map));
-  }
+    const baseMaps = {
+      "Base Map": baseLayer
+    };
 
-  private centerMap() {
-    // Create a LatLngBounds object to encompass all the marker locations
-    const bounds = L.latLngBounds(this.markers.map(marker => marker.getLatLng()));
+    const overlayMaps = {
+      "Wind": windLayer,
+      "Pressure": pressureLayer,
+      "Clouds": cloudsLayer
+    };
 
-    // Fit the map view to the bounds
-    this.map.fitBounds(bounds);
+    baseLayer.addTo(this.map);
+    L.control.layers(baseMaps, overlayMaps).addTo(this.map);
   }
 }
